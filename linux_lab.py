@@ -59,27 +59,41 @@ while True:
             print("[labsuser@"+ user_name + "~]$\n/home/" + user_name)
    
         create_dir1 = input("create a folder under your home directory ").split()
-
-        while (create_dir1[0] != "mkdir"):
+        size = len(create_dir1)
+        if (size >= 2):
+            while (create_dir1[0] != "mkdir"):
+                wrong += 1
+                create_dir1 = input(f"Sorry, {create_dir1[0]} is not correct command to create {create_dir1[1]} directory, try agine ").split()
+        elif (size == 1):
             wrong += 1
-            create_dir1 = input(f"Sorry, {create_dir1[0]} is not correc command to create #{create_dir1[1]} directory, try agine ").split()
+            while (create_dir1[0] != "mkdir"):
+                create_dir1 = input(f"Sorry, {create_dir1[0]} is not a correct command to create a director, also you did not pass directory name  try agine ").split()
+            else:
+                print(f"You forgot to pass directory name:")
         else:
             correct += 1
             print(f"{create_dir1[1]} directory has been successfully created")
 
         cd = input(f"change your dir to {create_dir1[1]} ").split()
-        while (cd[0] != "cd"):
-            wrong += 1
-            cd = input(f"Sorry, {cd[0]} is not a correct command to change directory {create_dir1[1]} directory, try agine ").split()
-        if (cd[1] != create_dir1[1] ):
-            chang_d = True   
-            while chang_d:  
-                cd = input(f"""Sorry, no such {cd[1]} directory {create_dir1[1]} directory, try agine 
-                 """).split()
-                if(cd[1] == create_dir1[1]):
-                    break
-        else:
+        size_cd = len(cd)
+        if (size_cd >= 2) :
+            while (cd[0] != "cd"):
+                wrong += 1
+                cd = input(f"Sorry, {cd[0]} is not a correct command to change directory {create_dir1[1]} directory, try agine ").split()
+            if(cd[1] != create_dir1[1]):
+                while True:  
+                    cd = input(f"""Sorry, there is no such {cd[1]}  directory, check your path and try agine """).split()
+                    if(cd[1] == create_dir1[1]):
+                        break
+        elif (size_cd == 1):
+            while (cd[0] != "cd"):
+                    cd = input(f"Sorry, {cd[0]} is not a correct command to change directory {create_dir1[1]} directory, try agine ").split()
+            else:
+                print(f"You forgot to pass the path of directory that you want to cahnge:")
+
+        else: 
             correct +=1
+            print("Great job!")
         create_dir2 = input(f"create sub folder inside your {create_dir1[1]} home directory ").split()
         while (create_dir2[0] != "mkdir"):
             wrong += 1
@@ -118,20 +132,24 @@ while True:
                 correct +=1
                 print(f"Nice job, you have created {file[0]} inside [{create_dir2[1]}] directory ")
         
-        validat = input("Great job,  validat your current directory").lower()
+        validat = input("Great job,  validat your current directory ").lower()
         
         if (validat == "pwd"):
             correct += 1
             print(f"/home/labsuser/{create_dir1[1]}/{create_dir2[1]}")
         else:     
                 wrong += 1
-                validat = input(f"Sorry,  {validat} not correct use (pwd) to check your current directory")
+                validat = input(f"Sorry,  {validat} not correct use (pwd) to check your current directory ")
                 print(f"/home/labsuser/{create_dir1[1]}/{create_dir2[1]}")
-
+            
+        add = correct + wrong
+        total = (correct * 100)//add
         print(f""" *** SCORE ***
             Correct: {correct}       
-            Wrong  : {wrong} """ )
-
+            Wrong  : {wrong} 
+            total  : {total}% """ )
+            
+            
         con = input("Do you want to take the test again? (Yes) or (no) ").lower()
         if con == "no":
             print("Good buy!")
