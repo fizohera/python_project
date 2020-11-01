@@ -42,7 +42,7 @@ if(account == "yes"):
 while True:
         correct = 0
         wrong = 0
-        answer1 = input("which key will give you the ability to auto complete sequence of latter  ").lower()
+        answer1 = input("which key will give you the ability to auto complete sequence of letter  ").lower()
         if answer1 != "tab":
             wrong += 1
             print(f"Sorry {answer1} is not correc")
