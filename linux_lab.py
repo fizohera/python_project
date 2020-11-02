@@ -1,18 +1,22 @@
 
 
-# This code demonstrat dictionary, list, if condition,and while loop
+# This code demonstrat dictionary, list, if condition, function and while loop
+#  First validat user credential, then let user to take a short Linux test 
+#  finaly print the the result and prompt user whether to take the test agin #  or not
 # Date 11/01/2020
 
 # create a dictionary
 user_data = { "user1":"u1", "user2": "u2","user3":"u3", "user4":"u4","user5":"u5" }
 
-#promte user to respond and chnage the inpute to lower case
+
 account = input("Do you have account (yes/no): ").lower()
+def yes_no(account):
+    while not (account == "yes" or account == "no" ):
+        account = input(account + " Is not valid, please type only  (yes/on) in/up ")
+        if(account == "yes" or account == "no"):
+            return account
 
-#keep prompt a user until their input is yes or no
-while not (account == "yes" or account == "no" ):
-      account = input(account + " Is not valid, please type only  (yes/on) in/up ")
-
+yes_no(account)
 #promte a new user to create account
 if(account != "yes"):
     user_name = input("Enter your user name to create account: ")
@@ -61,15 +65,22 @@ while True:
         create_dir1 = input("create a folder under your home directory ").split()
         size = len(create_dir1)
         if (size >= 2):
-            while (create_dir1[0] != "mkdir"):
-                wrong += 1
-                create_dir1 = input(f"Sorry, {create_dir1[0]} is not correct command to create {create_dir1[1]} directory, try agine ").split()
+            if (create_dir1[0] != "mkdir"):
+                while (True):
+                    create_dir1 = input(f"Sorry, {create_dir1[0]} is not correct command to create {create_dir1[1]} directory, try agine ").split()
+                    if(create_dir1[0] == "mkdir"):
+                        break
         elif (size == 1):
             wrong += 1
             while (create_dir1[0] != "mkdir"):
                 create_dir1 = input(f"Sorry, {create_dir1[0]} is not a correct command to create a director, also you did not pass directory name  try agine ").split()
-            else:
-                print(f"You forgot to pass directory name:")
+            if (create_dir1[0] == "mkdir"):
+                issize = True
+                while (issize):
+                    create_dir1 = input(f"Sorry, you did not passed directory name after {create_dir1[0]}  command, try agine ").split()
+                    if (len(create_dir1) >= 2):
+                        issize = False
+                
         else:
             correct += 1
             print(f"{create_dir1[1]} directory has been successfully created")
@@ -88,17 +99,32 @@ while True:
         elif (size_cd == 1):
             while (cd[0] != "cd"):
                     cd = input(f"Sorry, {cd[0]} is not a correct command to change directory {create_dir1[1]} directory, try agine ").split()
-            else:
-                print(f"You forgot to pass the path of directory that you want to cahnge:")
-
+            if(cd[0] == "cd"):
+                while True:
+                    cd = input(f"Sorry You forgot to pass the path of {create_dir1 [1]} directory, try agine ").split() 
+                    if len(cd) >= 2:
+                        break
         else: 
             correct +=1
             print("Great job!")
+
         create_dir2 = input(f"create sub folder inside your {create_dir1[1]} home directory ").split()
-        while (create_dir2[0] != "mkdir"):
+        siz = len(create_dir2)
+        if siz >= 2:
             wrong += 1
-            create_dir2 = input(f"Sorry, {create_dir2[0]} is not a correct command to create {create_dir1[1]} directory, try agine ").split()
-            
+            while (create_dir2[0] != "mkdir"):
+                create_dir2 = input(f"Sorry, {create_dir2[0]} is not a correct command to create {create_dir1[1]} directory, try agine ").split()
+
+        elif siz == 1:
+            while (create_dir2[0] != "mkdir"):
+                create_dir2 = input(f"""Sorry, {create_dir2[0]} is not a correct command to create a 
+                director, also you did not pass directory name  try agine """).split()
+                if (create_dir2[0] == "mkdir"):
+                    while (True):
+                        create_dir2 = input(f"Sorry, you did not passed directory name after {create_dir2}[0]command, try agine ").split()
+                        if (len(create_dir2) >= 2):
+                            break
+
         else:
             correct += 1
             print(f"{create_dir2[1]} directory has been successfully created inside {create_dir1[1]}")
@@ -150,8 +176,9 @@ while True:
             total  : {total}% """ )
             
             
-        con = input("Do you want to take the test again? (Yes) or (no) ").lower()
-        if con == "no":
+        response = input("Do you want to take the test again? (Yes) or (no) ").lower()
+        yes_no(response)
+        if response == "no":
             print("Good buy!")
             quit()
 
