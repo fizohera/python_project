@@ -116,7 +116,6 @@ while True:
         siz = len(create_dir2)
     
         if siz >= 2:
-            wrong += 1
             while (create_dir2[0] != "mkdir"):
                 create_dir2 = input(f"Sorry, {create_dir2[0]} is not a correct command to create {create_dir1[1]} directory, try agine ").split()
 
