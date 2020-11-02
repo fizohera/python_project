@@ -10,6 +10,7 @@ user_data = { "user1":"u1", "user2": "u2","user3":"u3", "user4":"u4","user5":"u5
 
 
 account = input("Do you have account (yes/no): ").lower()
+#validat user input
 def yes_no(account):
     while not (account == "yes" or account == "no" ):
         account = input(account + " Is not valid, please type only  (yes/on) in/up ")
@@ -17,6 +18,7 @@ def yes_no(account):
             return account
 
 yes_no(account)
+
 #promte a new user to create account
 if(account != "yes"):
     user_name = input("Enter your user name to create account: ")
@@ -66,6 +68,7 @@ while True:
         size = len(create_dir1)
         if (size >= 2):
             if (create_dir1[0] != "mkdir"):
+                wrong += 1
                 while (True):
                     create_dir1 = input(f"Sorry, {create_dir1[0]} is not correct command to create {create_dir1[1]} directory, try agine ").split()
                     if(create_dir1[0] == "mkdir"):
@@ -97,6 +100,7 @@ while True:
                     if(cd[1] == create_dir1[1]):
                         break
         elif (size_cd == 1):
+            wrong += 1
             while (cd[0] != "cd"):
                     cd = input(f"Sorry, {cd[0]} is not a correct command to change directory {create_dir1[1]} directory, try agine ").split()
             if(cd[0] == "cd"):
@@ -106,10 +110,11 @@ while True:
                         break
         else: 
             correct +=1
-            print("Great job!")
+            check = input(f"Great job!, your current direcory is {create_dir1 [1]} ")
 
         create_dir2 = input(f"create sub folder inside your {create_dir1[1]} home directory ").split()
         siz = len(create_dir2)
+    
         if siz >= 2:
             wrong += 1
             while (create_dir2[0] != "mkdir"):
