@@ -1,4 +1,6 @@
-# Subnet 
+# This code calculat Network ID, first and last host IPV4, Broadcast IP
+# Give user either to enter Netword ID along with CIDR or long format mask
+# Also convert long format mask eg 255.255.255.252 into prifix(CIDR) /30
 
 def choice():
     print("\n********  choice ******: " )
@@ -102,7 +104,7 @@ def block_size(blo_si_indi):
 def class_type(defa_cidr):
     class_identi(ip_add)
     #defa_cidr = default_cidr(ip_add)
-    print("\n||==================|=====================")
+    print("\n||=====================|=====================")
     print(f"|| given CIDR          | /{cidr} " )
     if defa_cidr == 8:
         print(f"|| Class A default     | /{defa_cidr} CIDR ")
@@ -135,6 +137,9 @@ def show_result():
     if  ip_add[octet_pos] > (network_block_size):
         divis = ip_add[octet_pos] //   network_block_size
         ip_add[octet_pos] = (divis *  network_block_size)
+        if ip_add[octet_pos] > 255:
+           ip_add[octet_pos - 1] += 1
+           ip_add[octet_pos] = 0
         print("|| Network ID:-        |",*ip_add, sep=".")
         ip_add[octet_pos] += 1 
         print("|| First Host IP:-     |",*ip_add, sep=".")
@@ -146,6 +151,9 @@ def show_result():
         print("|| Next Subnet:-       |",*ip_add, sep=".")
 
     elif  ip_add[octet_pos] == (network_block_size):
+        if (ip_add[octet_pos] > 255):
+            ip_add[octet_pos - 1] += 1
+            ip_add[octet_pos] = 0
         print("|| Network ID:-        |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
         print("|| First Host IP:-     |",*ip_add, sep=".")
