@@ -17,11 +17,15 @@ def choice():
                 not_valid = False
     return user_choice
 
-#return index(octet) position that is not 255   
+#return number of 255 occurance eg take 255.255.224.0 and return 2
+# It indicates target octet should increament  
 def mask_priff(long_mask):
     for x in range((len(long_mask))):
-        if (long_mask[x]) != 255:   
-           return x 
+        if (long_mask[x]) != 255:
+            if (long_mask[x] != 0):   
+                return x 
+            else:
+                return x - 1
 
 
 #take network id and 
@@ -42,21 +46,25 @@ def calculat_prefix():
             if target_octet == inital:
                 prefix = (coun  + prefix )
                 return prefix
+    elif target_octet == 0:
+        return print
     else:
         prefix = coun  + prefix 
+        return prefix     
 
-    return prefix           
+#print back user inpute
+def class_identi(network_id):
+    for x in range(len(network_id)):
+        print(network_id[x], end=".")
 
-def class_identi(y):
-    for x in range(len(y)):
-        print(ip_add[x], end=".")
-
+#calculate usable host it takes given cidr to find borrowed bit's 
 def usable_host(given_cider):
     # off bits(zero's)
     off_bits = (32 - given_cider)
     host = (2 ** off_bits) - 2
     return host
 
+#indicat target octet eg if cidr 21, ID 10.2.34.88 target octet is in index 2 which is 34
 def octet(given_cid):
     return given_cid // 8 
 
@@ -69,7 +77,7 @@ def default_cidr(ip_add):
     elif(ip_add[0] >= 192 and ip_add[0] <= 223):
         return 24
     else:
-        pass
+        return 32
 #indicate block size
 def majic_num_indicater(giv_cidr,def_cidr):
     borrowed_bit = (giv_cidr) - (def_cidr)
@@ -94,15 +102,17 @@ def block_size(blo_si_indi):
 def class_type(defa_cidr):
     class_identi(ip_add)
     #defa_cidr = default_cidr(ip_add)
-    print(f"\t\tThis network ID with given CIDR of /{cidr} " )
+    print("\n||==================|=====================")
+    print(f"|| given CIDR          | /{cidr} " )
     if defa_cidr == 8:
-        print(f"\t\t is a class A with a default /{defa_cidr} CIDR ")
+        print(f"|| Class A default     | /{defa_cidr} CIDR ")
     elif defa_cidr == 16:
-        print(f" is a class B with a default /{defa_cidr} CIDR ")
+        print(f"|| Class B default     | /{defa_cidr} CIDR ")
     elif defa_cidr == 24:
-        print(f" is a class C with a default /{defa_cidr} CIDR ")
+        print(f"|| Class C default     | /{defa_cidr} CIDR ")
     else:
-        pass
+        print(f"|| Class D default     | /{defa_cidr} CIDR ")
+
 def operation():
     #defa_cidr = default_cidr(ip_add)
     #get default cider and class type
@@ -116,47 +126,47 @@ def operation():
     show_result()
     
 def show_result():
-    print(f"<<== Total subnet:-  {subnet(cidr, defa_cidr)} ")
+    print(f"|| Total subnet:-      | {subnet(cidr, defa_cidr)} ")
     #print(f"<<== Octat need to incremaent in {(octet_pos + 1)}")
     #print(f"<<== Target octat valu :- {ip_add[octet_pos]}")
-    print(f"<<== Block size:-  {network_block_size} ")
-    print(f"\n<<= Total usable host:- {usable_host(cidr)}")
+    print(f"|| Block size:-        | {network_block_size} ")
+    print(f"|| Total usable host:  | {usable_host(cidr)}")
 
     if  ip_add[octet_pos] > (network_block_size):
         divis = ip_add[octet_pos] //   network_block_size
         ip_add[octet_pos] = (divis *  network_block_size)
-        print("<<== Network ID:-    ",*ip_add, sep=".")
-        ip_add[octet_pos] += 1
-        print("<<== First Host IP:- ",*ip_add, sep=".")
+        print("|| Network ID:-        |",*ip_add, sep=".")
+        ip_add[octet_pos] += 1 
+        print("|| First Host IP:-     |",*ip_add, sep=".")
         ip_add[octet_pos] += (network_block_size - 3)
-        print("<<== Last Host IP:-  ",*ip_add, sep=".")
+        print("|| Last Host IP:-      |",*ip_add, sep=".")
+        ip_add[octet_pos] += 1 
+        print("|| Broadcast IP:-      |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
-        print("<<== Broadcast IP:-  ",*ip_add, sep=".")
-        ip_add[octet_pos] += 1
-        print("<<== Next Subnet:-  ",*ip_add, sep=".")
+        print("|| Next Subnet:-       |",*ip_add, sep=".")
 
     elif  ip_add[octet_pos] == (network_block_size):
-        print("<<== Network ID:-   ",*ip_add, sep=".")
+        print("|| Network ID:-        |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
-        print("<<== First Host IP:- ",*ip_add, sep=".")
+        print("|| First Host IP:-     |",*ip_add, sep=".")
         ip_add[octet_pos] += (network_block_size) 
-        print("<<== Last Host IP:-  ",*ip_add, sep=".")
+        print("|| Last Host IP:-      |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
-        print("<<== Broadcast IP:-  ",*ip_add, sep=".")
+        print("|| Broadcast IP:-      |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
-        print("<<== Next Subnet:-  ",*ip_add, sep=".")
+        print("||  Next Subnet:-      |",*ip_add, sep=".")
 
     else:
         ip_add[octet_pos] = 0
-        print("<<== Network ID:-    ",*ip_add, sep=".")
+        print("|| Network ID:-        |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
-        print("<<== First Host IP:- ",*ip_add, sep=".")
+        print("|| First Host IP:-     |",*ip_add, sep=".")
         ip_add[octet_pos] += (network_block_size - 3) 
-        print("<<== Last Host IP:-  ",*ip_add, sep=".")
+        print("|| Last Host IP:-      |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
-        print("<<== Broadcast IP:-  ",*ip_add, sep=".")
+        print("|| Broadcast IP:-      |",*ip_add, sep=".")
         ip_add[octet_pos] += 1
-        print("<<== Next Subnet:-  ",*ip_add, sep=".")
+        print("|| Next Subnet:-       |",*ip_add, sep=".")
 
 
 choice = choice()
@@ -169,10 +179,8 @@ if choice == 1:
     cidr = find_cidr[1]
     ip_add[3] = (find_cidr[0])
     ip_add = [int(i) for i in ip_add]
-    defa_cidr = default_cidr(ip_add)
-    #operation()
-    defa_cidr = default_cidr(ip_add)
     #get default cider and class type
+    defa_cidr = default_cidr(ip_add)
     class_type(defa_cidr)
     usable_host(cidr)
     octet_pos = octet(cidr)
@@ -183,7 +191,7 @@ if choice == 1:
     show_result()
       
 elif choice == 2:
-    ip_add = (input("Enter IP address without CIDR, eg 10.2.2.88 ***")).split(".")
+    ip_add = (input("Enter IP address without CIDR, eg 10.2.2.88 *** ")).split(".")
     ip_add = [int(i) for i in ip_add]
     cidr = calculat_prefix()
     defa_cidr = default_cidr(ip_add)
