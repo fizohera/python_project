@@ -1,16 +1,8 @@
 import subprocess
-"""
-with open("tex.text", 'w') as f:
-    x = subprocess.run(["ls" ,"-la "],stdout=f, text=True )
-#y = subprocess.run(" ls -la ", capture_output=True )
-    #f.write(str(x))
-    print(x)
-#print(y.returncode())
-x = subprocess.run(["ls" ,"-la "],stdout=subprocess.PIPE, text=True )
-print(x)
-"""
 
-
+""" This is a simple python scrip that demonstrat the power of 
+    subprocess module
+"""
 def choice():
     print("\nDo you want to assign ")
     operation = {   1:"peimery group",
@@ -74,6 +66,18 @@ def tar_ball_file():
 configer_user_account()
 
 tar_ball_file()
+
+"""
+with open("tex.text", 'w') as f:
+    x = subprocess.run(["ls" ,"-la "],stdout=f, text=True )
+#y = subprocess.run(" ls -la ", capture_output=True )
+    #f.write(str(x))
+    print(x)
+#print(y.returncode())
+x = subprocess.run(["ls" ,"-la "],stdout=subprocess.PIPE, text=True 
+)
+print(x)
+"""
 
 
 
